@@ -1,16 +1,22 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+def sign_bit(x):      # square from sine
+    return 1.0 if x >= 0 else -1.0
+
+
 # -----------------------------
 # PLL Parameters
 # -----------------------------
-w_ref = 2 * np.pi * 15.0      # Reference frequency [rad/s] (10 Hz)
+w_ref = 2 * np.pi * 1.875      # Reference frequency [rad/s] (10 Hz)
 w_free = 2 * np.pi * 15.5      # Free-running VCO frequency [rad/s] (9.5 Hz)
 Kv = 200.0                    # VCO sensitivity [rad/s/V]
 Kd = 1.0                      # Phase detector gain (multiplier type)
 tau = 1                       # RC Loop filter time constant [s]
 dt = 1e-4                     # Time step [s]
-T = 5.0                       # Total time [s]
+T = 15.0                       # Total time [s]
+Ndiv = 8                      # divider value
+
 
 # -----------------------------
 # Initialization
@@ -27,12 +33,16 @@ phi_out[0] = 1.0              # initial phase offset
 v_out[0] = np.sin(phi_out[0])
 v_c[0] = 0.0
 
+
 # -----------------------------
 # Simulation loop
 # -----------------------------
 for k in range(1, N):
+    # divided feedback (ideal)
+    v_fb = np.sin(phi_out[k-1] / Ndiv)     
+
     # Phase detector: multiply input and VCO output
-    v_d[k] = Kd * v_in[k-1] * v_out[k-1]
+    v_d[k] = Kd * v_in[k-1] * v_fb
 
     # Loop filter (1st-order RC low-pass): dv_c/dt = (v_d - v_c)/tau
     # Simulates transient response
@@ -43,6 +53,7 @@ for k in range(1, N):
     phi_out[k] = phi_out[k-1] + (w_free + Kv * v_c[k]) * dt
     # sinusoidal output
     v_out[k] = np.sin(phi_out[k])
+
 
 # -----------------------------
 # Plots (each in its own figure)
