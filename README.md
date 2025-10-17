@@ -1,1 +1,14 @@
-This mini project simulates the generatio of a sinusiodal signal from a lower frequency and converting it to a higher frequency using a phase locked loop algorithm
+This mini project simulates the behavior of a PLL as that regulates itself
+
+
+setup 
+Windows: double-click run.bat
+
+macOS/Linux: run ./run.sh (or python3 run.py)
+
+The first run will create a local .venv/ and install dependencies automatically. Subsequent runs are instant.
+
+
+
+
+

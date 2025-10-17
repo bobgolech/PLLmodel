@@ -50,7 +50,7 @@ for k in range(1, N):
 plt.figure()
 plt.plot(t, v_in, label='Input (reference)')
 plt.plot(t, v_out, label='VCO output', alpha=0.7)
-plt.xlim(14, 15)
+plt.xlim(0, 0.5)
 plt.xlabel('Time [s]')
 plt.ylabel('Amplitude')
 plt.title('PLL Input and Output (Sinusoidal)')
